@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Book;
 
 class BookController extends Controller
@@ -33,14 +34,16 @@ class BookController extends Controller
     {
         $book = \App\Models\Book::findOrFail($id);
 
-        if ($book->users()->exists()) {
+        if (!$book->is_available) {
             return redirect()->back()->with('error', 'Book is already borrowed.');
         }
 
-        $user = \App\Models\User::inRandomOrder()->first();
+        $user = Auth::user();
         $book->users()->attach($user->id, [
             'due_date' => now()->addDays(14)
         ]);
+
+        $book->update(['is_available' => false]);
 
         return redirect()->back()->with('success', 'Book borrowed successfully.');
     }
@@ -49,9 +52,8 @@ class BookController extends Controller
     {
         $book = \App\Models\Book::findOrFail($id);
         
-        // Detach all users (since we assume one borrower for now based on logic)
-        // Or specific logic if we had auth()->id()
         $book->users()->detach();
+        $book->update(['is_available' => true]);
 
         return redirect()->back()->with('success', 'Book returned successfully.');
     }

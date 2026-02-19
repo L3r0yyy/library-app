@@ -23,17 +23,6 @@ class DatabaseSeeder extends Seeder
  
      $books = \App\Models\Book::factory(50)->create();
 
-         $this->call([
-            BorrowingSeeder::class,
-         ]);
 
-     $users = User::all();
-
-     // Populate the pivot table
-     $books->each(function ($book) use ($users) {
-         $book->users()->attach(
-             $users->random(rand(1, 4))->pluck('id')->toArray()
-         );
-     });
     }
 }
