@@ -1,59 +1,80 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Library Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A modern, web-based Library Management application built with Laravel, Tailwind CSS, and Alpine.js.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **User Authentication:** Secure login and registration system.
+- **Book Management:** 
+  - Admin users can Add, Edit, and Delete books.
+  - Track book availability, ISBN, Author, and Categories.
+- **Borrowing System:**
+  - Standard users can browse and borrow available books.
+  - Return borrowed books.
+  - Automatic due date tracking (14-day checkout period).
+  - Highlighting of overdue books.
+- **Dashboard:**
+  - **Admin Dashboard:** View system statistics (Total Users, Books, Active Loans, Overdue Loans) and manage user roles (promote users to Admins).
+  - **User Dashboard:** View total library stats and track personal active loans, including overdue statuses.
+- **Role-Based Access Control (RBAC):** Distinct permissions for `admin` and `user` roles to secure application features.
+- **Clean UI:** Responsive, modern design using Tailwind CSS.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+*   **Framework:** Laravel 11.x
+*   **Frontend:** Blade Templates, Tailwind CSS
+*   **Database:** MariaDB (via Laravel Sail)
+*   **Environment:** Docker (Laravel Sail)
 
-## Learning Laravel
+## Prerequisites
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+*   Docker Desktop installed and running.
+*   Composer installed locally (or via Docker).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Getting Started
 
-## Laravel Sponsors
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd library-app
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2. **Install Composer Dependencies:**
+   If you have composer installed locally:
+   ```bash
+   composer install
+   ```
 
-### Premium Partners
+3. **Set up Environment File:**
+   ```bash
+   cp .env.example .env
+   ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+4. **Start Laravel Sail (Docker):**
+   ```bash
+   ./vendor/bin/sail up -d
+   ```
 
-## Contributing
+5. **Generate Application Key:**
+   ```bash
+   ./vendor/bin/sail artisan key:generate
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+6. **Run Migrations and Seeders:**
+   This step will create the database tables and populate the system with dummy books, categories, a test Admin account, and a test User account.
+   ```bash
+   ./vendor/bin/sail artisan migrate --seed
+   ```
 
-## Code of Conduct
+## Test Accounts
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+The seeder provides two default accounts to test the Role-Based Access Control:
 
-## Security Vulnerabilities
+*   **Admin:** `admin@example.com` / `password`
+*   **User:**  `user@example.com` / `password`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Usage
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+*   Navigate to `localhost` in your browser.
+*   Log in as an Admin to access the Admin Panel, manage user roles, and add/edit/delete books.
+*   Log in as a standard User to browse the catalog, view your active loans, and borrow/return books.
