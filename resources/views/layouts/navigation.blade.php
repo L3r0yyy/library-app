@@ -17,9 +17,13 @@
                             {{ __('Dashboard') }}
                         </x-nav-link>
                     @endauth
-                    <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.*')">
-                        {{ __('Books') }}
-                    </x-nav-link>
+                    @auth
+                        @if(auth()->user()->isAdmin())
+                            <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.*')">
+                                {{ __('Admin Panel') }}
+                            </x-nav-link>
+                        @endif
+                    @endauth
                 </div>
             </div>
 

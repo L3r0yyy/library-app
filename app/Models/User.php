@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -48,5 +49,10 @@ class User extends Authenticatable
     public function books()
     {
         return $this->belongsToMany(Book::class)->withPivot('due_date');
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
     }
 }

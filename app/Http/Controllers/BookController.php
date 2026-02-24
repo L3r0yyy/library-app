@@ -57,5 +57,51 @@ class BookController extends Controller
 
         return redirect()->back()->with('success', 'Book returned successfully.');
     }
+
+    public function create()
+    {
+        return view('books.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'author' => 'required|string|max:255',
+            'isbn' => 'required|string|max:20|unique:books',
+            'description' => 'nullable|string',
+            'category_id' => 'required|integer|exists:categories,id',
+        ]);
+
+        Book::create($validated);
+
+        return redirect()->route('books.index')->with('success', 'Book added successfully.');
+    }
+
+    public function edit(Book $book)
+    {
+        return view('books.edit', compact('book'));
+    }
+
+    public function update(Request $request, Book $book)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'author' => 'required|string|max:255',
+            'isbn' => 'required|string|max:20|unique:books,isbn,' . $book->id,
+            'description' => 'nullable|string',
+            'category_id' => 'required|integer|exists:categories,id',
+        ]);
+
+        $book->update($validated);
+
+        return redirect()->route('books.index')->with('success', 'Book updated successfully.');
+    }
+
+    public function destroy(Book $book)
+    {
+        $book->delete();
+        return redirect()->route('books.index')->with('success', 'Book deleted successfully.');
+    }
     
 }
